@@ -2,20 +2,30 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model Listing {
-    id        String   @id @default(cuid())
-    useId    String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    name String
-    description String
-    price String
+  id          String    @id @default(cuid())
+  useId       String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  name        String
+  description String
+  price       String
+  Message     Message[]
+}
+
+model Message {
+  id           String  @id @default(cuid())
+  fromUser     String
+  fromUserName String
+  listingId    String
+  message      String
+  listing      Listing @relation(fields: [listingId], references: [id])
 }
